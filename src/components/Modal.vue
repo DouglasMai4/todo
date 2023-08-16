@@ -48,10 +48,10 @@ const open = ref(false);
   border-radius: 1rem;
   box-shadow: 0 0 15px rgb(0 0 0 / 50%);
   cursor: pointer;
-  transition: background 300ms ease;
+  transition: filter 300ms ease;
 
   &:hover {
-    background-color: $c-primary;
+    filter: brightness(0.85);
   }
 }
 

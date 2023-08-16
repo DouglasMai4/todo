@@ -29,7 +29,7 @@ import Input from './components/Input.vue';
         v-model="title"
       />
 
-      <span>{{ msg }}</span>
+      <span v-if="msg">{{ msg }}</span>
 
       <button type="submit">
         Adicionar
@@ -80,6 +80,33 @@ main {
     margin: 1rem;
     text-align: center;
     box-shadow: 5px 5px 15px rgb(0 0 0 / 50%);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  span {
+    padding: 0.2rem;
+    background-color: $bg-color-s;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+
+  button {
+    background-color: $c-secondary;
+    font-size: 2rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: filter 300ms ease;
+
+    &:hover {
+      filter: brightness(0.85);
+    }
   }
 }
 </style>
