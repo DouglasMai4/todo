@@ -12,21 +12,22 @@ function saveLocalStorage(todos: Array<TodoType>) {
 }
 
 function getLocalStorage() {
-  return JSON.parse(localStorage.getItem('todos') || '') || [];
+  const todosLocal = localStorage.getItem('todos') || null;
+  return todosLocal ? JSON.parse(todosLocal) : [];
 }
 
 export const store = reactive({
   todos: getLocalStorage(),
-  add(todo: TodoType) {
-    this.todos.push({...todo, id: uuidv4()});
+  add(title: string) {
+    this.todos.push({id: uuidv4(), title, finished: false});
     saveLocalStorage(this.todos);
   },
   delete(id: string) {
-    this.todos = this.todos.filter((todo) => todo.id !== id);
+    this.todos = this.todos.filter((todo: TodoType) => todo.id !== id);
     saveLocalStorage(this.todos);
   },
   update(id: string) {
-    this.todos = this.todos.map((todo) => {
+    this.todos = this.todos.map((todo: TodoType) => {
       if (todo.id === id) {
         return {
           ...todo,
