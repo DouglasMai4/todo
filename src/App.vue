@@ -3,6 +3,7 @@ import { store } from '../store';
 
 import Modal from './components/Modal.vue';
 import Input from './components/Input.vue';
+import Task from './components/Task.vue';
 </script>
 
 <template>
@@ -17,6 +18,16 @@ import Input from './components/Input.vue';
       >
         Nenhuma tarefa adicionada
       </h2>
+
+      <div v-else class="tasks-container">
+        <Task
+          v-for="task in store.todos"
+          :key="task.id"
+          :id="task.id"
+          :title="task.title"
+          :finished="task.finished"
+        />
+      </div>
     </section>
   </main>
 
@@ -79,7 +90,15 @@ main {
     border: 1px solid $c-primary;
     margin: 1rem;
     text-align: center;
+    min-width: 25rem;
     box-shadow: 5px 5px 15px rgb(0 0 0 / 50%);
+
+    .tasks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
   }
 }
 
