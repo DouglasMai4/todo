@@ -1,30 +1,135 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { store } from '../store';
+
+import Modal from './components/Modal.vue';
+import Input from './components/Input.vue';
+import Task from './components/Task.vue';
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main>
+    <section>
+      <h1>Tarefas</h1>
+
+      <hr />
+
+      <div
+        v-if="store.todos.length"
+        class="tasks-container"
+      >
+        <Task
+          v-for="task in store.todos"
+          :key="task.id"
+          :id="task.id"
+          :title="task.title"
+          :finished="task.finished"
+        />
+      </div>
+
+      <h2
+        v-else
+      >
+        Nenhuma tarefa adicionada
+      </h2>
+    </section>
+  </main>
+
+  <Modal>
+    <h1>Adicionar Tarefa</h1>
+    <form @submit="handleSubmit">
+      <Input
+        type="text"
+        placeholder="Título da tarefa"
+        v-model="title"
+      />
+
+      <span v-if="msg">{{ msg }}</span>
+
+      <button type="submit">
+        Adicionar
+      </button>
+    </form>
+  </Modal>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script lang="ts">
+export default {
+  data() {
+    return {
+      title: '',
+      msg: ''
+    };
+  },
+  methods: {
+    handleSubmit(e: Event) {
+      e.preventDefault();
+
+      if (!this.title) {
+        this.msg = 'O título não pode ficar vazio';
+        return;
+      }
+
+      store.add(this.title);
+      this.title = '';
+      this.msg = 'Tarefa adicionada';
+      setTimeout(() => this.msg = '', 2500);
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
+@import './assets/colors.scss';
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+
+  section {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: $bg-color-s;
+    border: 1px solid $c-primary;
+    margin: 1rem;
+    text-align: center;
+    min-width: 25rem;
+    box-shadow: 5px 5px 15px rgb(0 0 0 / 50%);
+
+    .tasks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  span {
+    padding: 0.2rem;
+    background-color: $bg-color-s;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+
+  button {
+    background-color: $c-secondary;
+    font-size: 2rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: filter 300ms ease;
+
+    &:hover {
+      filter: brightness(0.85);
+    }
+  }
 }
 </style>
