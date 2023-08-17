@@ -12,7 +12,7 @@ function saveLocalStorage(todos: Array<TodoType>) {
 }
 
 function getLocalStorage() {
-  const todosLocal = localStorage.getItem('todos') || null;
+  const todosLocal = localStorage.getItem('todos');
   return todosLocal ? JSON.parse(todosLocal) : [];
 }
 
@@ -20,6 +20,8 @@ export const store = reactive({
   todos: getLocalStorage(),
   add(title: string) {
     this.todos.push({id: uuidv4(), title, finished: false});
+    console.log('Added todo: ', this.todos);
+    
     saveLocalStorage(this.todos);
   },
   delete(id: string) {
@@ -30,11 +32,14 @@ export const store = reactive({
     this.todos = this.todos.map((todo: TodoType) => {
       if (todo.id === id) {
         return {
-          ...todo,
+          id: todo.id,
+          title: todo.title,
           finished: !todo.finished
         };
       }
+      return todo;
     });
+
     saveLocalStorage(this.todos);
   } 
 });

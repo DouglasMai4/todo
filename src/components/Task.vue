@@ -9,10 +9,16 @@ import { store } from '../../store';
       {{ title }}
     </span>
 
-    <button class="check-btn">
+    <button
+      class="check-btn"
+      @click="store.update(id || '')"
+    >
       <Icon icon="fa6-solid:check" />
     </button>
-    <button class="delete-btn">
+    <button
+      class="delete-btn"
+      @click="store.delete(id || '')"
+    >
       <Icon icon="fa6-solid:trash-can" />
     </button>
   </div>
@@ -23,12 +29,7 @@ export default {
   props: {
     id: String,
     title: String,
-    finished: String,
-  },
-  methods: {
-    handleCheck() {
-      
-    }
+    finished: Boolean,
   }
 };
 </script>
@@ -39,12 +40,13 @@ export default {
 .task-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 3rem;
   background-color: $bg-color;
   font-size: 2rem;
   border-radius: 1rem;
 
   .title {
+    word-wrap: break-word;
     grid-column: 1 / 3;
     grid-row: 1;
 

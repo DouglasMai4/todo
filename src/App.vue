@@ -13,13 +13,10 @@ import Task from './components/Task.vue';
 
       <hr />
 
-      <h2
-        v-if="!store.todos.length"
+      <div
+        v-if="store.todos.length"
+        class="tasks-container"
       >
-        Nenhuma tarefa adicionada
-      </h2>
-
-      <div v-else class="tasks-container">
         <Task
           v-for="task in store.todos"
           :key="task.id"
@@ -28,6 +25,12 @@ import Task from './components/Task.vue';
           :finished="task.finished"
         />
       </div>
+
+      <h2
+        v-else
+      >
+        Nenhuma tarefa adicionada
+      </h2>
     </section>
   </main>
 
@@ -69,6 +72,7 @@ export default {
       store.add(this.title);
       this.title = '';
       this.msg = 'Tarefa adicionada';
+      setTimeout(() => this.msg = '', 2500);
     }
   }
 };
